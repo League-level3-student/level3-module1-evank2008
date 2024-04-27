@@ -1,7 +1,7 @@
 package _05_Retro_Sun;
 
 import processing.core.PApplet;
-
+//WORK ON LINE 65
 /*
  * Goal: Create an animated retro sun image!
  * 
@@ -24,13 +24,13 @@ public class RetroSun extends PApplet {
     @Override
     public void settings() {
         // 1. Set the size of your sketch to at least 800 width, 600 height
-        
+        size(WIDTH,HEIGHT);
     }
 
     @Override
     public void setup() {
         // 2. Set bgColor as the background color
-        
+    	background(bgColor);
     }
 
     @Override
@@ -38,11 +38,13 @@ public class RetroSun extends PApplet {
         /*
          * PART 1: Drawing the sun
          */
-
+    	noStroke();
+fill(sunColors[0]);
+ellipse(WIDTH/2,HEIGHT/2,450,450);
         // Draw an ellipse for the sun in the center of the window
         // Use fill(sunColors[0]) to make it yellow
         // Use noStroke() to remove the black outline
-
+    	
         // Do you see a yellow sun like in the 1st image?
         // If not, fix your code before proceeding.
 
@@ -52,11 +54,15 @@ public class RetroSun extends PApplet {
          *
          * This will make the sun have gradually different colors from the top to bottom
          */
-
+loadPixels();
         // Call the loadPixels() method to put all the pixel colors into
         // the pixels[] array
         // https://processing.org/reference/loadPixels_.html
-
+for(int p : pixels) {
+	if(p==sunColors[0]) {
+		
+	}
+}
         // We want to change the color of our sun so use an if statement
         // to check if the pixel is the color of the yellow circle.
 

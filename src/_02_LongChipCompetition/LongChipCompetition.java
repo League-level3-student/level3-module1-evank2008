@@ -17,7 +17,25 @@ public class LongChipCompetition {
         LongChipCompetition lcc = new LongChipCompetition();
 
     }
-
+    public LongChipCompetition() {
+    	initializeBeatles();
+    	Beatle fake = theBeatles.get(0);
+    	for(Beatle bet : theBeatles) {
+    		if(longestChipLength(bet)>longestChipLength(fake)) {
+    			fake=bet;
+    		}
+    	}
+    	System.out.println(fake.getName()+" has the longest chip");
+    }
+    int longestChipLength(Beatle bet) {
+    	double i = 0;
+    	for (Chip c : bet.getChips()) {
+    		if(c.getLength()>i) {
+    		i=c.getLength();	
+    		}
+    	}
+    	return (int)Math.round(i);
+    }
     private void initializeBeatles() {
         Beatle george = new Beatle("George");
         Beatle john = new Beatle("John");

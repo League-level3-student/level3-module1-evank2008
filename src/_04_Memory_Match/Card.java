@@ -89,6 +89,8 @@ public class Card extends JButton {
             System.out.println(ex);
         } catch (Exception ex) {
             System.out.println("ERROR: Unable to get image from: " + filename);
+            System.out.println(ex);
+            ex.printStackTrace();
         }
         
         return icon;
