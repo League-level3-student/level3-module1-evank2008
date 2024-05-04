@@ -11,7 +11,10 @@ import processing.core.PApplet;
 public class RetroSun extends PApplet {
     static final int WIDTH = 800;
     static final int HEIGHT = 600;
-
+    float[] rectsY = {525,525+(56*1),525+(56*2),525+(56*3),525+(56*4)};
+    float[] rectsH = {70,70+(14*1),70+(14*2),70+(14*3),70+(14*4)};
+    float rectY = 525;
+    float h = 70;
     // RGB colors
     int[] sunColors = {
             color(212, 202, 11), color(214, 198, 30), color(211, 170, 26),
@@ -58,11 +61,14 @@ loadPixels();
         // Call the loadPixels() method to put all the pixel colors into
         // the pixels[] array
         // https://processing.org/reference/loadPixels_.html
-for(int p : pixels) {
-	if(p==sunColors[0]) {
-		
+for(int i = 0; i<pixels.length;i++) {
+	int y = i / width;
+	float step = map(y, 75, 525, 0, 1);
+	if(pixels[i]==sunColors[0]) {
+		pixels[i]= interpolateColor(sunColors,step);
 	}
 }
+updatePixels();
         // We want to change the color of our sun so use an if statement
         // to check if the pixel is the color of the yellow circle.
 
@@ -97,51 +103,31 @@ for(int p : pixels) {
          */
 
         // Set the fill color to the background color
+fill(bgColor);
 
-        // To draw each rectangle we need to find its x, y, width, height
-        // *The y position can be any value within the sun:
-        //  float y = width / 2;
-        // *The height can be any value you choose:
-        //  float h = 40;
-        // *The x position can be the center of the sun's x position minus the radius:
-        //  float x = sunCenterX - sunRadius
-        // *The width can be 2 times the radius
-        //  float w = 2 * sunRadius
-        
-        // Do you see a section missing from the sun like in the 3rd image?
+//rectsY,rectsH
+int x = 400 - 225;
+int w = 2 * 225;
 
-        
-        /*
-         * PART 4: Moving the missing sun sections
-         *
-         * To move a section upwards each rectangle's y value needs to decrease. To make
-         * the section get smaller, its height needs to also decrease.
-         */
-
-        // Decrease the y variable of the rectangular section created in PART 3.
-        // If there isn't a variable, declare a float variable OUTSIDE of the
-        // draw function AND initialize it in the setup() function.
-
-        // Do you see the rectangle moving upwards?
-
-        // Pick a y positon to be the location when the sections stop moving up.
-        // If the rectangle's y positon is above this, move the rectangle's
-        // y position back to the bottom of the sun.
-
-        // Does the rectangle move back to the bottom?
-
-        // Decrease the the height of the rectangle as it moves upwards.
-        // Similar to the y positon, a float variable for the height needs to be
-        // created if it doesn't already exist.
-
-        // Adjust the amount to decrease so that it disappears close to the top.
-        // HINT: You can use the map() function again,
-        // h = map(y, missingSectionTopY, missingSectionBottomY, 1, 40);
-
-        // The map() function will make the value of h = 1 if y is at the top,
-        // and h = 40 if y is at the bottom.
-
-        
+for(int i = 0; i<5;i++) {
+	rect(x,rectsY[i],w,rectsH[i]);
+	rectsY[i]-=0.3;
+	rectsH[i]-=0.075;
+	if(rectsY[i]<=245) {
+		rectsY[i]=525;
+		rectsH[i]=70;
+	}
+}
+//1 height = 4 y
+/*
+rect(x,rectY,w,h);
+rectY-=0.2;
+h-=0.05;
+if(rectY<=245) {
+	rectY=525;
+	h=70;
+} */
+ 
         /*
          * PART 5: Managing the missing sun sections
          *
