@@ -79,15 +79,35 @@ public class _02_LogSearch implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
 		if(e.getSource()==view) {
-			
+			if(database.size()==0) {
+				JOptionPane.showMessageDialog(null, "No data found!");
+			} else {
+			String output = "";
+			for(Integer i : database.keySet()) {
+				output=output+"ID: "+i+" Name: "+database.get(i)+"\n";
+			}
+			JOptionPane.showMessageDialog(null, output);
+			}
 		} else if(e.getSource()==add) {
-			database.put(Integer.getInteger(JOptionPane.showInputDialog("Enter an ID Number")), JOptionPane.showInputDialog("Enter your Data"));
+			database.put(Integer.parseInt(JOptionPane.showInputDialog("Enter an ID Number")), JOptionPane.showInputDialog("Enter your Data"));
 			
 		} else if(e.getSource()==search) {
-			
+			int givenKey = Integer.parseInt(JOptionPane.showInputDialog("Enter an ID Number"));
+			if(database.containsKey(givenKey)) {
+			JOptionPane.showMessageDialog(null, database.get(givenKey));
+			} else {
+				JOptionPane.showMessageDialog(null, "No data found!");
+			}
 		} else if(e.getSource()==remove) {
-			
+			int givenKey = Integer.parseInt(JOptionPane.showInputDialog("Enter an ID Number"));
+			if(database.containsKey(givenKey)) {
+			database.remove(givenKey);
+			JOptionPane.showMessageDialog(null, "Data removed successfully");
+			} else {
+				JOptionPane.showMessageDialog(null, "No data found!");
+			}
 		}
 	}
 
