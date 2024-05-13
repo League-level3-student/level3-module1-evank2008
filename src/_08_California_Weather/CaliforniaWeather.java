@@ -116,6 +116,23 @@ public class CaliforniaWeather implements ActionListener{
 		}
 	}
 	String findCitiesByTempRange(int min, int max) {
-		return null;
+		String cities = "";
+		boolean areThereAny = false;
+		for(String cityName : weatherData.keySet()) {
+			double temp = weatherData.get(cityName).temperatureF;
+			if(temp>=min&&temp<=max) {
+				areThereAny=true;
+				if(cities.length()==0) {
+					cities+=cityName+" "+temp+"F";
+				} else {
+					cities+=", "+cityName+" "+temp+"F";
+				}
+			}
+		}
+		if(!areThereAny) {
+			return "No cities within desired temperature range";
+		} else {
+			return cities;
+		}
 	}
 }
