@@ -3,10 +3,13 @@ package _09_World_Clocks;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -47,9 +50,11 @@ public class WorldClocks implements ActionListener {
     String dateStr;
     String timeStr;
     
+    JButton button;
+    HashMap<String, TimeZone> map;
     public WorldClocks() {
         clockUtil = new ClockUtilities();
-
+        map = new HashMap<String, TimeZone>();
         // The format for the city must be: city, country (all caps)
         city = "Chicago, US";
         timeZone = clockUtil.getTimeZoneFromCityName(city);
@@ -64,13 +69,19 @@ public class WorldClocks implements ActionListener {
         // Sample starter program
         frame = new JFrame();
         panel = new JPanel();
+        
+        button = new JButton("Add Timezone");
+        button.addActionListener(this);
+        
         textArea = new JTextArea();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(100, 100);
         frame.add(panel);
         panel.add(textArea);
+        panel.add(button);
         textArea.setText(city + "\n" + dateStr);
+        
         
         // This Timer object is set to call the actionPerformed() method every
         // 1000 milliseconds
@@ -80,6 +91,12 @@ public class WorldClocks implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
+    	if(arg0.getSource()==button) {
+    		String input = JOptionPane.showInputDialog("Enter Location in format \"City, Country\"");
+    		if(clockUtil.getTimeZoneFromCityName(input)!=null) {
+    		map.put(input,clockUtil.getTimeZoneFromCityName(input));
+    		}
+    	}else {
         Calendar c = Calendar.getInstance(timeZone);
         String militaryTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND);
         String twelveHourTime = " [" + c.get(Calendar.HOUR) + ":" + c.get(Calendar.MINUTE) + ":" + c.get(Calendar.SECOND) + "]";
@@ -87,6 +104,19 @@ public class WorldClocks implements ActionListener {
         
         System.out.println(timeStr);
         textArea.setText(city + "\n" + dateStr + "\n" + timeStr);
+        
+        for(String city : map.keySet()) {
+        	Calendar cal = Calendar.getInstance(map.get(city));
+            String mil = cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND);
+            String tw = " [" + cal.get(Calendar.HOUR) + ":" + cal.get(Calendar.MINUTE) + ":" + cal.get(Calendar.SECOND) + "]";
+            timeStr = mil + tw;
+            
+            System.out.println(timeStr);
+            
+            textArea.setText(textArea.getText()+"\n \n"+city + "\n" + dateStr + "\n" + timeStr);
+        }
+        
         frame.pack();
+    	}
     }
 }
